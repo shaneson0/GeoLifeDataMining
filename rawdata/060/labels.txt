@@ -1,0 +1,3 @@
+Start Time	End Time	Transportation Mode
+2007/08/18 04:26:05	2007/08/18 04:47:31	walk
+2007/08/20 01:32:29	2007/08/20 01:59:13	walk

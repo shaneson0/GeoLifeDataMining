@@ -1,0 +1,2 @@
+Start Time	End Time	Transportation Mode
+2011/09/07 10:04:33	2011/09/07 13:56:58	walk
