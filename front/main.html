@@ -3,26 +3,32 @@
 <head>
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyDJW4jsPlNKgv6jFm3B5Edp5ywgdqLWdmc&sensor=false">
     </script>
+    <script src="Points.js"></script>
 
     <script>
         var start = new google.maps.LatLng(39.974294, 116.399741);
-        var point1 = new google.maps.LatLng(39.974635, 116.399025);
-        var point2 = new google.maps.LatLng(39.974934, 116.399697);
+
+        var pointsJson = JSON.parse(points);
+        console.log(points);
 
         function initialize() {
             var mapProp = {
                 center: start,
-                zoom: 5,
+                zoom: 14,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
             var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
-            var myTrip = [point1, point2];
+            var myTrip = [];
+            for (var i = 0; i < pointsJson.length; i++ ) {
+                myTrip.push(new google.maps.LatLng(pointsJson[i]["Latitude"], pointsJson[i]["Longitude"]))
+            }
+
             var flightPath = new google.maps.Polyline({
                 path: myTrip,
-                strokeColor: "#0000FF",
-                strokeOpacity: 0.8,
+                strokeColor: "#FF69B4",
+                strokeOpacity: 1.2,
                 strokeWeight: 2
             });
 
