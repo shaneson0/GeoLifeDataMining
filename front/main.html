@@ -5,6 +5,7 @@
     </script>
     <script src="Points.js"></script>
 
+    <!-- {'longitude': 39.9681895, 'latitude': 116.399756} -->
     <script>
         var start = new google.maps.LatLng(39.974294, 116.399741);
 
@@ -32,7 +33,16 @@
                 strokeWeight: 2
             });
 
+            var TempLatting = new google.maps.LatLng(39.9681895, 116.399756)
+            var marker = new google.maps.Marker({
+                position: TempLatting,
+                map: map,
+                title:"Hello World!"
+            });
+
             flightPath.setMap(map);
+
+
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);

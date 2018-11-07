@@ -48,12 +48,16 @@ def stayPointDetection(Points, distThreh, timeThreh):
     PointNumber = len(Points)
     while i < PointNumber:
         j = i + 1
+        MaxLen = -1
         while j < PointNumber:
             dist = haversine(Points[j]["longitude"], Points[j]["latitude"], Points[i]["longitude"], Points[i]["latitude"])
+            if dist > MaxLen:
+                MaxLen = dist
             if dist > distThreh:
                 S = {}
-                T = Points[j]['T'] - Points[i]['T']
+                T = (Points[j]['T'] - Points[i]['T']).seconds
                 if T > timeThreh:
+                    print('pass', T)
                     S["coord"] = computMeanCord(Points[i: j+1])
                     S["arvT"] = Points[i]['T']
                     S["levT"] = Points[j]['T']
@@ -61,19 +65,26 @@ def stayPointDetection(Points, distThreh, timeThreh):
                 i = j
                 break
             j = j + 1
+        if MaxLen < distThreh:
+            break
     return Sp
+
+
+
 
 import pandas as pd
 import json
+import datetime
 if __name__ == "__main__":
 
-
-    path = 'data/Userid135.csv'
+    path = '../data/Userid135.csv'
     df = pd.read_csv(path)
 
     # latitude	longitude
     latitude = df['latitude'].values.tolist()
     longitude = df['longitude'].values.tolist()
+    datelist = df['date'].values.tolist()
+    timelist = df['time'].values.tolist()
 
     Len = len(latitude)
 
@@ -82,10 +93,17 @@ if __name__ == "__main__":
     for idx in range(Len):
         Latitude = latitude[idx]
         Longitude = longitude[idx]
-        Points.append({'Latitude': Latitude, 'Longitude': Longitude})
+        tempDateObject = datelist[idx]
+        tempTimeObject = timelist[idx]
+        # 2009/1/3:1:21:34
+        CurrentTime = datetime.datetime.strptime(tempDateObject + ":" + tempTimeObject, '%Y/%m/%d:%H:%M:%S')
 
-    # 0.2公里，
-    Sp = stayPointDetection(Points, 0.2, )
+        Points.append({'longitude': Latitude, 'latitude': Longitude, 'T': CurrentTime})
+
+    # print(Points)
+    # 0.2公里，30min = 1800S
+    Sp = stayPointDetection(Points, 0.2, 1200)
+    print(Sp)
 
 
 
