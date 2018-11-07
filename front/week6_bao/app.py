@@ -1,7 +1,9 @@
 from flask import Flask
 from flask import request
-from xgboot实现.test1 import  trainandTestNeedPrams
+
 app = Flask(__name__)
+import service
+
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -15,16 +17,16 @@ def signin_form():
               <p><button type="submit">Sign In</button></p>
               </form>'''
 
-@app.route('/getXgbootData', methods=['get'])
+@app.route('/getXgbootData', methods=['get','post'])
 def getXgbootData():
-    grade1 = request.args.get('grade1')
-    grade2 = request.args.get('grade2')
-    grade3 = request.args.get('grade3')
-    print (grade1,grade2,grade3)
-     #trainandTestNeedPrams()
-    '''
-    将三个参数送入集合中。'''
-    return '<h3>Bad username or password.</h3>'
+    id= request.args.get('user_id')
+    date= request.args.get('user_date')
+    print (id,date)
+    result= service.getJsonData()
+
+    return "successCallback" + "(" + result + ")"  # 将结果以json形式返回，通过jsonp与前台交互
+
+
 
 if __name__ == '__main__':
     app.run()

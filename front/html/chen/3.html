@@ -1,0 +1,158 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>test</title>
+    <!-- ����bootstrap��ʽ -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- ����bootstrap-table��ʽ -->
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+
+    <!-- jquery -->
+    <script src="https://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!-- bootstrap-table.min.js -->
+
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJW4jsPlNKgv6jFm3B5Edp5ywgdqLWdmc&sensor=false">
+    </script>
+
+
+    <!-- {'longitude': 39.9681895, 'latitude': 116.399756} -->
+    <style>
+        .common {
+            border: 1px solid #F00
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <!--header-->
+    <div class="common">
+        <div class="common" style="width:800px;height:100px;margin:0 auto;">
+            <div style="padding: 20px 20px 10px;">
+                <form class="bs-example bs-example-form" role="form">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <p>用户id</p>
+                                </span>
+                                <input id="user_id" type="text" class="form-control">
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <p>日期</p>
+                                </span>
+                                <input type="date" id="user_date" class="form-control datepicker ">
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                        <div style="float: right;margin-right: 30px;">
+                            <button type="button" id="show" class="btn btn-success">显示路线</button>
+                        </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!--middle-->
+    <div class="common">
+        <div id="googleMap" style="width:80%;height:600px;margin-left: 10%;"></div>
+    </div>
+
+
+    <script src="commjs.js"></script>
+    <script src="test.js"></script>
+
+    <script>
+        var user_id, user_date;
+        //给按钮加事件
+       
+            $("#show").click(function () {
+
+                user_id = $("#user_id").val();
+                user_date = $("#user_date").val();
+                /**/
+                postdata(user_id, user_date);
+            });
+       
+
+
+        /*向后台请求数据*/
+
+
+        function postdata(grade1, grade2) {
+            //先定好格式传送数据格式
+            message = {
+                'user_id': user_id,
+                'user_date': user_date,
+            };
+
+            //调用
+            var url = "http://127.0.0.1:5000/getXgbootData";
+            com.meajax(url, message,
+                function (data) {
+                    //alert(data);
+                    delLogmsg(data);
+                });
+        }
+        var myTrip = [];
+        var start = new google.maps.LatLng(39.974294, 116.399741);
+        function delLogmsg(data) {
+            var pointsJson = data;
+          
+            for (var i = 0; i < pointsJson.length; i++) {
+                console.log(pointsJson[i]["longitude"]);
+                console.log(pointsJson[i]["latitude"]);
+                myTrip.push(new google.maps.LatLng(pointsJson[i]["latitude"], pointsJson[i]['longitude']))
+            }
+            // console.log(pointsJson[0]["latitude"]);
+
+           initialize();   //初试话地图
+
+        }
+  
+        
+
+        function initialize() {
+            var mapProp = {
+                center: start,
+                zoom: 14,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+           
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+            console.log("请显示我啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
+            console.log(myTrip);
+            var flightPath = new google.maps.Polyline({
+                path: myTrip,
+                strokeColor: "#FF69B4",
+                strokeOpacity: 1.2,
+                strokeWeight: 2
+            });
+
+            
+            // console.log(myTrip);
+            flightPath.setMap(map);
+          
+        }
+
+
+
+
+     //   google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+</body>
+
+</html>
