@@ -22,7 +22,7 @@ def getXgbootData():
     id= request.args.get('user_id')
     date= request.args.get('user_date')
     print (id,date)
-    result= service.getJsonData()
+    result = service.getJsonData()
 
     return "successCallback" + "(" + result + ")"  # 将结果以json形式返回，通过jsonp与前台交互
 

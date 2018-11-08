@@ -25,7 +25,7 @@ if __name__ == "__main__":
         Latitude = latitude[idx]
         Longitude = longitude[idx]
         tempDateObject = datelist[idx]
-        Points.append({'id':id,'longitude': Latitude, 'latitude': Longitude, 'T':  tempDateObject})
+        Points.append({'id':id,'longitude': Longitude, 'latitude': Latitude, 'T':  tempDateObject})
 
 #print (Points)
 

@@ -103,38 +103,28 @@
             var url = "http://127.0.0.1:5000/getXgbootData";
             com.meajax(url, message,
                 function (data) {
-                    //alert(data);
                     delLogmsg(data);
                 });
         }
-        var myTrip = [];
-        var start = new google.maps.LatLng(39.974294, 116.399741);
+
+//        var start = new google.maps.LatLng(39.974294, 116.399741);
         function delLogmsg(data) {
             var pointsJson = data;
-          
+            var myTrip = [];
             for (var i = 0; i < pointsJson.length; i++) {
-                console.log(pointsJson[i]["longitude"]);
-                console.log(pointsJson[i]["latitude"]);
-                myTrip.push(new google.maps.LatLng(pointsJson[i]["latitude"], pointsJson[i]['longitude']))
+
+                myTrip.push(new google.maps.LatLng(parseFloat(pointsJson[i]["latitude"]), parseFloat(pointsJson[i]['longitude'])))
             }
-            // console.log(pointsJson[0]["latitude"]);
 
-           initialize();   //初试话地图
+            var start = new google.maps.LatLng(parseFloat(pointsJson[0]["latitude"]), parseFloat(pointsJson[0]["longitude"]))
 
-        }
-  
-        
-
-        function initialize() {
             var mapProp = {
                 center: start,
                 zoom: 14,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
-           
+
             var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-            console.log("请显示我啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
-            console.log(myTrip);
             var flightPath = new google.maps.Polyline({
                 path: myTrip,
                 strokeColor: "#FF69B4",
@@ -142,16 +132,15 @@
                 strokeWeight: 2
             });
 
-            
-            // console.log(myTrip);
+
+
             flightPath.setMap(map);
-          
+
         }
+  
 
 
-
-
-     //   google.maps.event.addDomListener(window, 'load', initialize);
+//        google.maps.event.addDomListener(window, 'load', initialize);
     </script>
 </body>
 
