@@ -9,7 +9,7 @@ import pandas as pd
 import datetime
 
 
-def getPointDetection(path):
+def getPointDetection(path, userid):
     df = pd.read_csv(path)
 
     # latitude	longitude
@@ -32,12 +32,15 @@ def getPointDetection(path):
             CurrentTime = datetime.datetime.strptime(tempDateObject + ":" + tempTimeObject, '%Y/%m/%d:%H:%M:%S')
         except:
             CurrentTime = datetime.datetime.strptime(tempDateObject + ":" + tempTimeObject, '%Y-%m-%d:%H:%M:%S')
-
-        Points.append({'longitude': Longitude, 'latitude': Latitude, 'T': CurrentTime})
+        if Longitude > 115.25 and Longitude < 117.30 and Latitude > 39.26 and Latitude < 41.03:
+            Points.append({'longitude': Longitude, 'latitude': Latitude, 'T': CurrentTime, 'userid': userid})
 
     # print(Points)
     # 0.2公里，30min = 1800S
-    Sp = stayPointDetection(Points, 0.2, 1800)
+    # 景点detection, 设置为1公里， 1小时
+    # 北京市界的地理坐标为：北纬39”26’至41”03’，东经115”25’至 117”30’。
+    # 需要摒除掉住所，假设呆在景点为3个小时
+    Sp = stayPointDetection(Points, 2000, 7200, 10800, userid)
     return Sp
 
 
@@ -50,8 +53,9 @@ def main():
                 userid = root.split('/')[-2]
                 datetime = root.split('/')[-1]
                 filepath = os.path.join(root, name)
-                Sp = getPointDetection(filepath)
+                Sp = getPointDetection(filepath, userid)
                 AllstayPoints = AllstayPoints + Sp
+
     return AllstayPoints
 
 
@@ -65,7 +69,7 @@ if __name__ == '__main__':
 
     Res = []
     for point in AllstayPoints:
-        Res.append({'longitude': point['coord']['longitude'], 'latitude': point['coord']['latitude']})
+        Res.append({'longitude': point['coord']['longitude'], 'latitude': point['coord']['latitude'], 'userid': point["userid"]})
 
     with open("allstayPoints.json", mode="w") as fp:
         json.dump(Res, fp)
