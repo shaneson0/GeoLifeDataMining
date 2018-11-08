@@ -1,4 +1,6 @@
 .idea
-data/*
 .DS_Store
+trajectoryPreprocessing/stayPointDetectionAnalys/
+trajectoryPreprocessing/stayPointDetectionJsonType/
+*.pyc
 

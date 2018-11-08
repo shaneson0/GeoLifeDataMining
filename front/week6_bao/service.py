@@ -17,7 +17,7 @@ def  getJsonData(user_id=9,date='2008-10-23'):
     #print (result)
     #resultToJSONFile()    #结果存入文件
 
-    resultsjson=json.dumps(result[:100])    #结果变成json格式返回
+    resultsjson=json.dumps(result)    #结果变成json格式返回
     #print (results)
     return resultsjson
 
