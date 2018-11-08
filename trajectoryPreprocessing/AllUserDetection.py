@@ -55,6 +55,9 @@ def main():
     return AllstayPoints
 
 
+def main2():
+    pass
+
 
 if __name__ == '__main__':
     AllstayPoints = main()
