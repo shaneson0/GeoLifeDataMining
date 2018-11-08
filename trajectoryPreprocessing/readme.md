@@ -23,6 +23,24 @@ python plt2csv2.py
 Then It will generate many user-date's file
 
 
+#### 2. allstayPoints.json generate
+
+```python
+
+python AllUserDetection.py
+
+```
+
+
+#### 3。 finalAllStayPoints.json generate
+
+```python
+
+python StayPointsCluster.py
+
+```
+
+
 
 
 

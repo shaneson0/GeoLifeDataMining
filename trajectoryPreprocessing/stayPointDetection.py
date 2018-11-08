@@ -42,7 +42,7 @@ def computMeanCord(PointArray):
 # longitude, latitude
 
 # Detect User's stay Points
-def stayPointDetection(Points, distThreh, timeThreh):
+def stayPointDetection(Points, distThreh, timeThreh, MaxtimeThreh, userid):
     Sp = []
     i = 0
     PointNumber = len(Points)
@@ -56,11 +56,13 @@ def stayPointDetection(Points, distThreh, timeThreh):
             if dist > distThreh:
                 S = {}
                 T = (Points[j]['T'] - Points[i]['T']).seconds
-                if T > timeThreh:
+                if T > timeThreh and T < MaxtimeThreh:
                     print('pass', T)
+
                     S["coord"] = computMeanCord(Points[i: j+1])
                     S["arvT"] = Points[i]['T']
                     S["levT"] = Points[j]['T']
+                    S["userid"] = userid
                     Sp.append(S)
                 i = j
                 break

@@ -17,7 +17,7 @@ def  getJsonData(user_id=9,date='2018-11-08'):
     for i in range(len(setting)):
         if  user_id==setting[i]['id'] and date==setting[i]['T']:
           result.append(setting[i])
-    print ("result",result)
+
     resultsjson=json.dumps(result)    #结果变成json格式返回
     #print (results)
     return resultsjson
