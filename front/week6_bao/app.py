@@ -18,7 +18,7 @@ def signin_form():
               </form>'''
 
 @app.route('/getJSONData', methods=['get','post'])
-def getXgbootData():
+def getJSOnData():
     id= request.args.get('user_id')
     date= request.args.get('user_date')
     print (id,date)
@@ -31,6 +31,18 @@ def getXgbootData():
 
 
 
+
+@app.route('/getJSONDataRecommend', methods=['get','post'])
+def getXgbootData():
+    id= request.args.get('user_id')
+
+    print (id)
+    #从文件中获取数据。
+    result = service.getJsonDataBy_ID(str(id))
+    if  result=="":
+        return "successCallback" + "(" + 'no' + ")"
+    else:
+        return "successCallback" + "(" + result + ")"  # 将结果以json形式返回，通过jsonp与前台交互
 
 
 if __name__ == '__main__':

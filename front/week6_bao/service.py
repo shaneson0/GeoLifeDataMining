@@ -43,6 +43,18 @@ def  getJsonDataBy_File(id=9,date='2008-10-24'):
     return resultJson;
 
 
+def  getJsonDataBy_ID(user_id='0'):
+       result_byid = []
+       f = open('../../trajectoryDataMining/recommendRes.json', encoding='utf-8')  # 设置以utf - 8
+       # 解码模式读取文件，encoding参数必须设置，否则默认以gbk模式读取文件，当文件中包含中文时，会报错
+       setting = json.load(f)
+       for (key, value) in  setting.items():
+           if key== user_id:
+               result_byid.append(value)
+       resultJson=json.dumps(result_byid);
+       print (resultJson)
+       return resultJson;
+
 # # Put_to_JSONFile
 # def resultToJSONFile():
 #     fp = open('result.json', 'w')
@@ -51,4 +63,6 @@ def  getJsonDataBy_File(id=9,date='2008-10-24'):
 #
 
 
-getJsonData()
+
+
+getJsonDataBy_ID()
