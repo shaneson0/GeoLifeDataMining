@@ -25,7 +25,7 @@
     <!-- {'longitude': 39.9681895, 'latitude': 116.399756} -->
     <style>
         .common {
-            border: 1px solid #F00
+            /*border: 1px solid #F00*/
         }
     </style>
 </head>
@@ -84,9 +84,14 @@
                 user_id = $("#user_id").val();
                 user_date = $("#user_date").val();
                 /**/
+                if(user_id==''||user_date==''){
+                    alert('您有未填项！！！');
+                }
+                else{
                 postdata(user_id, user_date);
+            }
             });
-       
+
 
 
         /*向后台请求数据*/
@@ -100,7 +105,7 @@
             };
 
             //调用
-            var url = "http://127.0.0.1:5000/getXgbootData";
+            var url = "http://127.0.0.1:5000/getJSONData";
             com.meajax(url, message,
                 function (data) {
                     delLogmsg(data);
@@ -110,7 +115,10 @@
 //        var start = new google.maps.LatLng(39.974294, 116.399741);
         function delLogmsg(data) {
             var pointsJson = data;
-            var myTrip = [];
+
+            if(pointsJson[0]!=null){
+
+                         var myTrip = [];
             for (var i = 0; i < pointsJson.length; i++) {
 
                 myTrip.push(new google.maps.LatLng(parseFloat(pointsJson[i]["latitude"]), parseFloat(pointsJson[i]['longitude'])))
@@ -131,13 +139,24 @@
                 strokeOpacity: 1.2,
                 strokeWeight: 2
             });
+           //增加起始标记
+            var marker=new google.maps.Marker({
+               position:start,
+               animation:google.maps.Animation.BOUNCE
+            });
 
-
+            marker.setMap(map);
 
             flightPath.setMap(map);
 
+            }else{
+
+                alert('该用户没有当天数据！！！')
+            }
+
+
         }
-  
+
 
 
 //        google.maps.event.addDomListener(window, 'load', initialize);
